@@ -1,25 +1,37 @@
-import{Route,BrowserRouter,Routes} from 'react-router-dom'
+import{Route,BrowserRouter,Routes } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute';
+import Home from './components/Home';
 import './App.css';
+import { NavBar } from './components/NavBar';
+import { Button} from '@mui/material';
 
 function App() {
+  
   return (
     <div className="App">
-  <BrowserRouter>
-      <Routes>
-      <Route path='/' element = {''}/>
-        <Route path='/login' element = {''}/>
-        <Route path='/signup' element = {''}/>
+  
+        <NavBar />
+        <Button variant='contained' color='primary'>
+          ir
+        </Button>
+    
 
-          <Route  element = { <ProtectedRoute />}>
-          <Route path='/doctor' element = {''}/>
-          <Route path='/doctors/new' element = {''}/>
-          <Route path='/especialidades' element = {''}/>
-          <Route path='/turnos' element = {''}/>
+        <BrowserRouter>
+            <Routes>
+            <Route path='/' element = {Home}/>
+              <Route path='/login' element = {''}/>
+              <Route path='/signup' element = {''}/>
 
-          </Route>
-      </Routes>
-    </BrowserRouter>
+                <Route  element = { <ProtectedRoute />}>
+                <Route path='/doctor' element = {''}/>
+                <Route path='/doctors/new' element = {''}/>
+                <Route path='/especialidades' element = {''}/>
+                <Route path='/turnos' element = {''}/>
+
+                </Route>
+            </Routes>
+          </BrowserRouter>
+          
     </div>
   );
 }
