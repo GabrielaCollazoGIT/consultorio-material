@@ -1,9 +1,11 @@
 import{Route,BrowserRouter,Routes } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './components/Home';
+import LoginOp from './components/LoginOp';
+import Register from './components/Register';
 import './App.css';
 import { NavBar } from './components/NavBar';
-import { Button} from '@mui/material';
+
 
 function App() {
   
@@ -11,17 +13,13 @@ function App() {
     <div className="App">
   
         <NavBar />
-        <Button variant='contained' color='primary'>
-          ir
-        </Button>
-    
 
         <BrowserRouter>
             <Routes>
-            <Route path='/' element = {Home}/>
-              <Route path='/login' element = {''}/>
-              <Route path='/signup' element = {''}/>
-
+            <Route path='/' element = {<Home/>}/>
+              <Route path='/login' element = {<LoginOp/>}/>
+              <Route path='/signup' element = {<Register/>}/>
+              
                 <Route  element = { <ProtectedRoute />}>
                 <Route path='/doctor' element = {''}/>
                 <Route path='/doctors/new' element = {''}/>
