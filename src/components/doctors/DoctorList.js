@@ -1,6 +1,6 @@
 import React from "react";
 import { useState,useEffect } from 'react';
-import { Button, Typography,Container, Grid, Card, CardActionArea, CardMedia, CardContent, CardActions } from "@mui/material";
+import {Box, Button, Typography,Container, Grid, Card, CardActionArea, CardMedia, CardContent, CardActions } from "@mui/material";
 
 
 const DoctorList = () => {
@@ -34,35 +34,41 @@ const DoctorList = () => {
 return(
     <Container>
     <Typography variant="h4" align="center" style={{marginTop:"50px"}}>
-        Lista de Productos
+        Nuestros Profesionales
     </Typography>
-    <Grid container spacing={5} style={{marginTop:"20px"}}>
-        {loading && <p> Loading....</p>}
+
+    <Grid container spacing={5} style={{marginTop:"20px"}} alignItems="center">
+      {/*   {loading && <p> Loading....</p>} */}
         {doctors?.map((doctor)=>(
-        <Grid item xs ={12} sm ={4} ms={4} key={doctor.id}> 
+        <Grid item xs ={12} sm ={4} ms={4} key={`${doctor.id}-${doctor.lastname}`}>
             <Card sx={{maxWidth: 345}} style={{padding:"10px", marginBottom:"30px"}}>
                 <CardActionArea>
                     <CardMedia
                     component="img"
-                    height="140"
+                    height="200"
                     image={doctor.image}
                     alt="doctor image"
-                    style={{borderRadius:"5px"}}
+                    style={{borderRadius:"5px",
+                    objectFit: "contain",
+                    }}
                     />
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                         {doctor.name + ' ' + doctor.lastname}
                         </Typography>
                         <Typography variant="body2"  color="text.secondary">
-                        {product.specialities}
+                        {doctor.specialities}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
-                <CardActions>
-                    <Button onClick={()=>{getTurns(doctor)}} variant="contained" size="medium">
+                <Box display="flex" justifyContent="center" alignItems="center" >
+
+                <CardActions      >
+                    <Button /* onClick={()=>{getTurns(doctor)}} */  variant="contained" size="medium">
                         Turnos disponibles
                     </Button>
                 </CardActions>
+                </Box>
             </Card>
         </Grid> 
         ))}

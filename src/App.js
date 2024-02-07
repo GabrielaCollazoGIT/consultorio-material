@@ -3,8 +3,11 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Home from './components/Home';
 import LoginOp from './components/LoginOp';
 import Register from './components/Register';
+import DoctorList from './components/doctors/DoctorList'
 import './App.css';
-import { NavBar } from './components/NavBar';
+import NavBar from './components/navBar/NavBar';
+import Specialities from './components/especialidades/Specialities';
+import NewDoctor from './components/doctors/NewDoctor';
 
 
 function App() {
@@ -13,7 +16,7 @@ function App() {
     <div className="App">
   
         <NavBar />
-
+        
         <BrowserRouter>
             <Routes>
             <Route path='/' element = {<Home/>}/>
@@ -21,9 +24,9 @@ function App() {
               <Route path='/signup' element = {<Register/>}/>
               
                 <Route  element = { <ProtectedRoute />}>
-                <Route path='/doctor' element = {''}/>
-                <Route path='/doctors/new' element = {''}/>
-                <Route path='/especialidades' element = {''}/>
+                <Route path='/doctor' element = {<DoctorList/>}/>
+                <Route path='/doctors/new' element = {<NewDoctor/>}/>
+                <Route path='/especialidades' element = {<Specialities/>}/>
                 <Route path='/turnos' element = {''}/>
 
                 </Route>

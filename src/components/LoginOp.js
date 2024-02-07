@@ -2,32 +2,16 @@
 import React, {useState} from "react";
 import { Box, Button,Container,Grid,Paper,TextField,Typography} from '@mui/material';
 import { Link, useNavigate} from "react-router-dom";
-
-
+import { useDispatch } from "react-redux";
+import { addUser } from "../redux/reducers/userSlice";
 const LoginOp = ()=>{
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
     
 
-  /*   const [inputs, setInputs ] = useState({
-        email:'',
-        password:''
-    })
 
-const onHandleChange = (e) => {
-
-setInputs((inputs) =>({
-    ...inputs,
-    [e.target.email] : e.target.value,
-    [e.target.password] : e.target.value,
-
-
-}));
-
-};
-
- */
 
 const onfinishHandler = async (e) =>{
     e.preventDefault();
@@ -46,6 +30,7 @@ const onfinishHandler = async (e) =>{
         })
         const responseData = await response.json();
         if(response.ok){// statuscode
+            dispatch(addUser(responseData));
             localStorage.setItem("token", responseData.token)
         alert('Ingresando.....') // eo c0digo que sigue no se ejecuta  y se dispara el catch
         navigate('/');

@@ -1,12 +1,13 @@
 import React,{useState} from "react";
-
+import NavListDrawer from './NavListDrawer';
 import { AppBar, Drawer, IconButton, Toolbar, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu'
-export const NavBar = () => {
+
+const NavBar =  () => {
 const [open, setOpen] = useState(false);
 
     return (
-        <div>
+    <> 
                 <AppBar position="static">
                     <Toolbar>
                         <IconButton color="inherit" size="large" onClick={() => setOpen(true)}>
@@ -20,8 +21,9 @@ const [open, setOpen] = useState(false);
             
             <Drawer open={open} anchor="left"
             onClose={() => setOpen(false)}>
-                <NavListDrawer />
+                <NavListDrawer/>
             </Drawer>
-        </div>
-    )
+            </>
+    );
 };
+export default NavBar;
