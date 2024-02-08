@@ -8,7 +8,7 @@ const initialState = { // estado inicial de nuestro sliceUser...
 
 export const userSlice = createSlice({  
     // le colocamos nombre a esta porcion para poder identificarlo en los distintos componentes de nuestra app
-    name: 'user',
+    name: 'user.',
     initialState, // y le pasamos el estado inicial
     reducers: { // esto es lo que cambia con el redux definido donde tengo la funcion reducer q es un swich con varios casos dependiendo de las actions
         //aca ponemos las acciones que queremos que modifiquen los estados y redux-toolkit va a crear acciones que se pueden despachar desde los componentes
@@ -35,3 +35,27 @@ export const userSlice = createSlice({
 
 export const {addUser, changeToken} = userSlice.actions // son las actions para utilizarlas, no es lo mismo que los reducers que acabamnos de configurar, estas se crean solas
 export default userSlice.reducer; // aca si exporto el reducer.... que lo importamos en la store, este ultimo a su vez va ser importado en el index para usarlo con el provider
+
+
+// useSelector() es para lectura de la informacion, y se utiliza cuando se monta el componente, lee el estado actual de la variable
+// useDispatch() se utiliza para la escritura de la informacion, es decir para modificarla, envia la informacion a un reducer( ej, changeToken) para que modifique si estado
+
+
+// ej
+/* En el componente donde quiero trabajar....
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+const Uno = () => {
+    const dipatch = useDispatch();
+    const tokenActual = useSelector(state => state.user.token); = leo el valor actual del token desde el state
+
+    const modificar = () => {
+        dispatch(changeToken('asdasdqweqwe213213asa)); = le cargo el nuevo state con este metodo...
+    }
+
+    <button onClick={modificar}> Modificar token </button>
+
+
+}
+ */
