@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setUser } from "../redux/reducers/userSlice2";
+import { setUser } from "../redux/slices/users/userSlice2"
 import axios from "axios";
 
 
@@ -24,14 +24,20 @@ const ProtectedRoute = () =>{
 
             console.log(response);
 
-            dispatch(setUser(response.data));
+            dispatch(setUser(response));
 
     } catch (error) {
         console.log(error);
     }
 
 };
-    
+    console.log(user);
+useEffect(() =>{
+if(user===null){
+    getUserData();
+}
+},[user, getUserData ]);
+
     let auth = localStorage.getItem('token');
 
         return (auth ? <Outlet/> : <Navigate to="/"/>

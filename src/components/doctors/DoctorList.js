@@ -1,38 +1,37 @@
-import React from "react";
-import { useState,useEffect } from 'react';
-import {Box, Button, Typography,Container, Grid, Card, CardActionArea, CardMedia, CardContent, CardActions } from "@mui/material";
+import React,{useEffect} from "react";
+
+import {fetchDoctors} from '../../redux/slices/doctors/listDoctorsSlice';
+import { useDispatch, useSelector } from "react-redux";
+import {Box, Button, Typography,Container,List, ListItem, ListItemText, Grid, Card, CardActionArea, CardMedia, CardContent, CardActions } from "@mui/material";
 
 
 const DoctorList = () => {
-    const [doctors, setDoctors] = useState([]);
+
+    const {doctors} = useSelector(state => state.doctors);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-    
-        const fetchDoctors = async () => {
-            try {
-                const response = await fetch("http://localhost:5000/api/doctors",{  // este fetch apunta al backend para login, mediante la ruta url
-                method:'GET',
-                headers: {
-                Authorization: "Bearer " + localStorage.getItem('token'),
-                },
-                })   
-                const data = await response.json();
-                setDoctors(data); 
-                console.log(data);
-            } catch (error) {
-                console.error("Error al cargar Doctores:", error);
-            }
-        };
 
-        
-        fetchDoctors();
-    }, []); // La de
+    dispatch(fetchDoctors());
+
+    },[dispatch]);
+console.log(doctors);
 
 
-    console.log(doctors);
 
 return(
-    <Container>
+    <Container  sx={{
+        backgroundImage: 'url("https://img.freepik.com/free-photo/flat-lay-health-still-life-arrangement-with-copy-space_23-2148854064.jpg?w=2000&t=st=1707451908~exp=1707452508~hmac=2980c0789a55c0ed8c1b5c889fc1abca432fca89354aa6a6c8db54f20e59335f")',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        width: '100%', // Ajuste para ocupar el 100% del ancho
+        height: '100%', // Ajuste para ocupar el 100% de la altura
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }}>
     <Typography variant="h4" align="center" style={{marginTop:"50px"}}>
         Nuestros Profesionales
     </Typography>
@@ -41,7 +40,7 @@ return(
       {/*   {loading && <p> Loading....</p>} */}
         {doctors?.map((doctor)=>(
         <Grid item xs ={12} sm ={4} ms={4} key={`${doctor.id}-${doctor.lastname}`}>
-            <Card sx={{maxWidth: 345}} style={{padding:"10px", marginBottom:"30px"}}>
+            <Card sx={{ maxWidth: 345, margin: 'auto', padding: '10px', marginBottom: '30px' }}>
                 <CardActionArea>
                     <CardMedia
                     component="img"
@@ -56,9 +55,13 @@ return(
                         <Typography gutterBottom variant="h5" component="div">
                         {doctor.name + ' ' + doctor.lastname}
                         </Typography>
-                        <Typography variant="body2"  color="text.secondary">
-                        {doctor.specialities}
-                        </Typography>
+                        <List>
+                        {doctor.speciality.map((speciality, index) => (
+                        <ListItem key={index} sx={{ display: 'flex',textAlign: 'center', alignItems: 'center', justifyContent:'center' }}>
+                        <ListItemText primary={speciality.name} />
+                        </ListItem>
+                        ))}
+                    </List>
                     </CardContent>
                 </CardActionArea>
                 <Box display="flex" justifyContent="center" alignItems="center" >

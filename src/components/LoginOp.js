@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import { Box, Button,Container,Grid,Paper,TextField,Typography} from '@mui/material';
 import { Link, useNavigate} from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addUser } from "../redux/reducers/userSlice";
+import { addUser } from "../redux/slices/users/userSlice";
 const LoginOp = ()=>{
     const navigate = useNavigate();
     const [email, setEmail] = useState('');

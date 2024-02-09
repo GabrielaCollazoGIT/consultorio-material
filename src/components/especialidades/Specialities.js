@@ -31,7 +31,9 @@ const [especialities, setEspecialities] = useState([]);
 
 
         return(
-            <Container>
+            <Container
+            
+            >
             <Typography variant="h4" align="center" style={{marginTop:"50px"}}>
                 Nuestras Especialidades
             </Typography>
@@ -40,7 +42,7 @@ const [especialities, setEspecialities] = useState([]);
               {/*   {loading && <p> Loading....</p>} */}
                 {especialities?.map((speciality)=>(
                 <Grid item xs ={12} sm ={4} ms={4} key={`${speciality.id}-${speciality.name}`}> 
-                    <Card sx={{maxWidth: 345}} style={{padding:"10px", marginBottom:"30px"}}>
+            <Card sx={{ maxWidth: 345, margin: 'auto', padding: '10px', marginBottom: '30px' }}>
                         <CardActionArea>
                             <CardMedia
                             component="img"
