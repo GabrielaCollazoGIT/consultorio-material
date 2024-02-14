@@ -24,7 +24,7 @@ function App() {
               <Route path='/signup' element = {<Register/>}/>
               
                 <Route  element = { <ProtectedRoute />}>
-                <Route path='/doctor' element = {<DoctorList/>}/>
+                <Route path='/doctor/:specialityId' element = {<DoctorList/>}/>
                 <Route path='/doctors/new' element = {<NewDoctor/>}/>
                 <Route path='/especialidades' element = {<Specialities/>}/>
                 <Route path='/turnos' element = {''}/>

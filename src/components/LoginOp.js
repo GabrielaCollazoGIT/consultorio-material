@@ -3,17 +3,43 @@ import React, {useState} from "react";
 import { Box, Button,Container,Grid,Paper,TextField,Typography} from '@mui/material';
 import { Link, useNavigate} from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addUser } from "../redux/slices/users/userSlice";
-const LoginOp = ()=>{
+import {  setTokenAndRole  } from "../redux/slices/auth/authSlice";
+import axios from "axios";
+
+
+const LoginOp = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     
 
+const onfinishHandler = async (e) => {
+    e.preventDefault();
+    try {
+        const response = await axios.post("http://localhost:5000/api/users/login",{email, password});
+        const {token, rol } = response.data;
+        console.log(response.data);
 
+        if(response.data){// statuscode
+            dispatch(setTokenAndRole({token, rol}));
 
-const onfinishHandler = async (e) =>{
+            localStorage.setItem("token", token)
+        alert('Ingresando.....');
+
+        navigate('/');
+        }
+        
+    } catch(error) {
+
+        alert(error.response.data.error);
+
+    }
+}
+
+console.log(email, password);
+
+/* const onfinishHandler = async (e) =>{
     e.preventDefault();
     
     try {
@@ -42,9 +68,7 @@ const onfinishHandler = async (e) =>{
         } catch (error) {
         console.log(error);
         }
-}
- console.log("desde el login  email: "  + email);
- console.log("desde el login  password: "  + password);
+} */
 
 return (
     <Container maxWidth="sm">
@@ -60,7 +84,7 @@ return (
                 <Typography sx={{ mt: 1, mb: 1 }} variant="h4">
                 Iniciar sesion
                 </Typography>
-                <Box component="form" onSubmit={onfinishHandler}>
+                <Box component="form" >
                 <TextField
                 name="email"
                 margin="normal"
@@ -81,13 +105,14 @@ return (
                 label="Password"
                 sx={{ mt: 1.5, mb: 1.5 }}
                 required
-                onChange={(e)=> {setPassword(e.target.value)}}                />
+                onChange={(e)=> {setPassword(e.target.value)}} />
 
                 <Button
                 fullWidth
                 type="submit"
                 variant="contained"
                 sx={{ mt: 1.5, mb: 3 }}
+                onClick={onfinishHandler}
                 >
                 Iniciar sesion
                 </Button>

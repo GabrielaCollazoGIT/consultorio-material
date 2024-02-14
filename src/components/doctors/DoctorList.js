@@ -67,7 +67,7 @@ return(
                 <Box display="flex" justifyContent="center" alignItems="center" >
 
                 <CardActions      >
-                    <Button /* onClick={()=>{getTurns(doctor)}} */  variant="contained" size="medium">
+                    <Button /* onClick={()=>{getTurns(doctor)}} */ id={doctor.id} variant="contained" size="medium">
                         Turnos disponibles
                     </Button>
                 </CardActions>
