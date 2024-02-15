@@ -71,16 +71,17 @@ console.log(email, password);
 } */
 
 return (
-    <Container maxWidth="sm">
+    <Container  className="body-background">
         <Grid
         container
         direction="column"
         alignItems="center"
         justifyContent="center"
         sx={{ minHeight: "100vh" }}
+        className= "login template d-flex justify-content-center align-items-center vh-100"
         >
-            <Grid item>
-            <Paper sx={{ padding: "1.2em", borderRadius: "0.5em" }}>
+            <Grid item >
+            <Paper sx={{ padding: "1.2em",border:"solid", borderRadius: "0.5em" ,background:"transparent"}}>
                 <Typography sx={{ mt: 1, mb: 1 }} variant="h4">
                 Iniciar sesion
                 </Typography>
@@ -128,8 +129,8 @@ return (
         
 
         </Grid>
-      </Grid>
+    </Grid>
     </Container>
-  );
+    );
 };
 export default LoginOp;

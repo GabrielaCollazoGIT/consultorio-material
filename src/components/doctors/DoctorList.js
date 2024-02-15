@@ -1,5 +1,5 @@
 import React,{useEffect} from "react";
-
+import { useParams } from "react-router-dom";
 import {fetchDoctors} from '../../redux/slices/doctors/listDoctorsSlice';
 import { useDispatch, useSelector } from "react-redux";
 import {Box, Button, Typography,Container,List, ListItem, ListItemText, Grid, Card, CardActionArea, CardMedia, CardContent, CardActions } from "@mui/material";
@@ -9,10 +9,11 @@ const DoctorList = () => {
 
     const {doctors} = useSelector(state => state.doctors);
     const dispatch = useDispatch();
+    const { specialityId } = useParams(); 
 
     useEffect(() => {
 
-    dispatch(fetchDoctors());
+    dispatch(fetchDoctors(specialityId));
 
     },[dispatch]);
 console.log(doctors);
@@ -66,7 +67,7 @@ return(
                 </CardActionArea>
                 <Box display="flex" justifyContent="center" alignItems="center" >
 
-                <CardActions      >
+                <CardActions >
                     <Button /* onClick={()=>{getTurns(doctor)}} */ id={doctor.id} variant="contained" size="medium">
                         Turnos disponibles
                     </Button>

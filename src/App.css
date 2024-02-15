@@ -1,3 +1,39 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html{
+  scroll-behavior: smooth;
+  scroll-padding-top: 75px;
+}
+
+html.body{
+  font-weight: 400;
+  overflow-x: hidden;
+  position: relative;
+  background-image: url("https://img.freepik.com/foto-gratis/ciencia-biotecnologia-genetica-adn-manos-cientifico-remix-tecnologia-disruptiva_53876-126745.jpg?size=626&ext=jpg&ga=GA1.2.1110870412.1703208842&semt=ais");
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+h1,h2,h3,h4,h5,h6{
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+}
+
+.body-background {
+  background-color: #f0f0f0; 
+  background-image: url("https://img.freepik.com/foto-gratis/ciencia-biotecnologia-genetica-adn-manos-cientifico-remix-tecnologia-disruptiva_53876-126745.jpg?size=626&ext=jpg&ga=GA1.2.1110870412.1703208842&semt=ais");
+  background-size: cover; 
+  background-position: center ;
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+}
+
+
 .App {
   text-align: center;
 }
@@ -35,4 +71,90 @@
   to {
     transform: rotate(360deg);
   }
+}
+/*Baner*/
+.banner {
+  margin-top: 0;
+  padding: 10vw 0; /* Ajusta el padding según sea necesario */
+  background-image: url('https://img.freepik.com/foto-gratis/primer-plano-retrato-doctora-personal-hospital-gafas-mascarilla-medica-aspecto-serio-r_1258-121762.jpg?w=2000&t=st=1703774577~exp=1703775177~hmac=eb8cf1939d61bcd08b3ff166863c2ef1cc20fff4b39e2eb6c6e61c400e952f37');
+  background-position: top center;
+  background-size: cover; /* Utiliza cover para que la imagen cubra el contenido */
+  background-repeat: no-repeat;
+  text-align: start;
+}
+
+.banner .special-line {
+  margin-top: 2vw; /* Ajusta según sea necesario */
+  
+}
+
+.banner .tagline {
+  font-weight: 700;
+  
+  letter-spacing: 0.8px;
+  padding: 1vw 2vw;
+  background: linear-gradient(90.21deg, rgba(170, 54, 124, 0.5) -5.91%, rgba(74, 47, 189, 0.5) 1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  font-size: 2vw; /* Utiliza vw para hacer el tamaño de la fuente responsive */
+  margin-bottom: 2vw; /* Ajusta según sea necesario */
+  display: inline-block;
+  color: #666;
+}
+
+.banner h1 {
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-align:center;
+  padding: 1vw 2vw;
+  font-size: 4vw; /* Utiliza vw para hacer el tamaño de la fuente responsive */
+  line-height: 1;
+  margin-bottom: 2vw; /* Ajusta según sea necesario */
+  display: block;
+  color: #666;
+}
+.banner p {
+  color:#b8b8b8;
+  letter-spacing: 0.8px;
+  font-size: 18px;
+  line-height: 1.5em;
+  width: 96%;
+}
+.banner button{
+  color:#fff;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  font-size: 20px;
+  margin-top: 60px;
+  display:flex;
+  align-items: center;
+}
+
+.banner button svg{
+  font-size: 25px;
+  margin-left: 10px;
+  transition: 0.3s ease-in-out;
+  line-height: 1;
+}
+
+.banner button:hover svg{
+  margin-left: 25px;
+}
+.banner img{
+  animation: upddown 3s linear infinite;
+}
+
+@keyframes updown{
+  0%{
+      transform: translateY(-20px);
+  }
+  50%{
+      transform: translateY(20px);
+  }
+  100%{
+      transform: translateY(-20px);
+  }
+}
+
+.txt-rotate > .wrap{
+  border-right: 0.08em solid #666;
 }

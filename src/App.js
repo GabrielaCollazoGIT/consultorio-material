@@ -8,14 +8,41 @@ import './App.css';
 import NavBar from './components/navBar/NavBar';
 import Specialities from './components/especialidades/Specialities';
 import NewDoctor from './components/doctors/NewDoctor';
+import UpdateDoctor from './components/doctors/UpdateDoctor';
+import AppointmentList from './components/turns/AppointmentList';
+//import NewNavBar from './components/navBar/NewNavBar';
 
 
 function App() {
   
+  const navLinks = [
+    {
+        title: "Home", path:"/"
+
+    },
+    {
+        title: "Especialidades", path:"/especialidades"
+
+    },
+    {
+      title: "Turnos", path:"/turnos"
+
+    },
+    {
+        title: "Login", path:"/login"
+
+    },
+    {
+        title: "Signup", path:"/signup"
+
+    }
+    
+]
+
   return (
     <div className="App">
   
-        <NavBar />
+        <NavBar navLinks={navLinks}/>
         
         <BrowserRouter>
             <Routes>
@@ -26,8 +53,9 @@ function App() {
                 <Route  element = { <ProtectedRoute />}>
                 <Route path='/doctor/:specialityId' element = {<DoctorList/>}/>
                 <Route path='/doctors/new' element = {<NewDoctor/>}/>
+                <Route path='/doctors/update' element = {<UpdateDoctor/>}/>
                 <Route path='/especialidades' element = {<Specialities/>}/>
-                <Route path='/turnos' element = {''}/>
+                <Route path='/turnos' element = {<AppointmentList/>}/>
 
                 </Route>
             </Routes>

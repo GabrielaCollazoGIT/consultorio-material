@@ -84,11 +84,11 @@ console.log(specialities);
                         <Box display="flex" justifyContent="center" alignItems="center" >
         
                         <CardActions >
-                        <Link to={`/doctors/${speciality.id}`}>
+                        <Link to={`/doctor/${speciality._id}`}> 
                             <Button   variant="contained" size="medium">
                                 Médicos Disponibles
                             </Button>
-                            </Link>
+                        </Link> 
                         </CardActions>
                         </Box>
                     </Card>

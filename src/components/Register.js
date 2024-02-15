@@ -47,17 +47,18 @@ const onfinishHandler = async (e) =>{
 
 
 return (
-    <Container maxWidth="sm">
-        <Grid
-        container
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        sx={{ minHeight: "100vh" }}
-        >
-            <Grid item>
-            <Paper sx={{ padding: "1.2em", borderRadius: "0.5em" }}>
-                <Typography sx={{ mt: 1, mb: 1 }} variant="h4">
+    <Container  className="body-background">
+    <Grid
+    container
+    direction="column"
+    alignItems="center"
+    justifyContent="center"
+    sx={{ minHeight: "100vh" }}
+    className= "login template d-flex justify-content-center align-items-center vh-100"
+    >
+        <Grid item >
+        <Paper sx={{ padding: "1.2em",border:"solid", borderRadius: "0.5em" ,background:"transparent"}}>
+            <Typography sx={{ mt: 1, mb: 1 }} variant="h4">
                 Registrarse
                 </Typography>
                 <Box component="form" onSubmit={onfinishHandler}>
@@ -128,9 +129,9 @@ return (
         
 
         </Grid>
-      </Grid>
+    </Grid>
     </Container>
-  );
+);
 
 };
 

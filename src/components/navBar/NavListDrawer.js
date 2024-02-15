@@ -1,46 +1,58 @@
 import React from 'react';
-import { Box, ListItem, ListItemButton, ListItemIcon, ListItemText, List, Divider } from '@mui/material'; 
-import InboxIcon from '@mui/icons-material/Inbox'
+import { Box, ListItem,  ListItemText, List,Collapse, Divider,Link, ListItemButton} from '@mui/material'; 
+import { Link as RouterLink } from 'react-router-dom';
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
-const NavListDrawer = () => {
-return  ( <Box sx={{width: 250, bgcolor:'ligthsalmon'}}>
-        <nav>
-            <List>
-                <ListItem disablePadding>
-                    <ListItemIcon>
-                        <InboxIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Inbox" />
-                </ListItem>
+const NavListDrawer = ({navLinks}) => {
 
-                <ListItem disablePadding>
-                    <ListItemIcon>
-                        <InboxIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Inbox" />
-                </ListItem>
 
-                <ListItem disablePadding>
-                    <ListItemIcon>
-                        <InboxIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Inbox" />
-                </ListItem>
+    const [open, setOpen] = React.useState(false);
 
-            </List>
-        </nav>
-        <Divider/>
-        <nav>
-            <List>
-                <ListItem disablePadding>
-                    <ListItemButton>
-                        <ListItemText>Ver a donde va el</ListItemText>
-                    </ListItemButton>
-                </ListItem>
-            </List>
-        </nav>
-    </Box>
-    );
-}
+    const handleClick = () => {
+    setOpen(!open);
+    };
+
+    return  ( 
+    <Box sx={{width: 250, bgcolor:'ligthsalmon'}}>
+    <nav>
+    <List>
+        {
+            navLinks.map(link => (  
+        <ListItem key={link.title} disablePadding>
+            <ListItemButton component="a" href={link.path}>
+            <ListItemText>{link.title}</ListItemText>
+            </ListItemButton>
+        </ListItem>
+            ))
+        }
+        {/* Refactorizar para hacer un droopdown...... */}
+    
+        <ListItem button onClick={handleClick}>
+        <ListItemText primary="Profesionales" />
+        {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+            <ListItem button component={Link} to="doctor/new">
+            <ListItemText primary="Agregar" />
+            </ListItem>
+            <ListItem button component={Link} to="doctor/update">
+            <ListItemText primary="Actualizar" />
+            </ListItem>
+        </List>
+        </Collapse>
+    </List>
+</nav>
+        </Box>
+        );
+    }
+
+
+
+
+
+
+
 export default NavListDrawer;
 

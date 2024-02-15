@@ -47,7 +47,7 @@ const NewDoctor = () => {
         };
     
         try {
-        const response = await fetch("http://localhost:5000/api/doctors/{}", requestOptions);
+        const response = await fetch("http://localhost:5000/api/doctors/", requestOptions);
     
         const responseData = await response.json();
         if (!response.ok) {
