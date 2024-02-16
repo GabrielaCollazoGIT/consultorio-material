@@ -11,6 +11,9 @@ import NewDoctor from './components/doctors/NewDoctor';
 import UpdateDoctor from './components/doctors/UpdateDoctor';
 import AppointmentList from './components/turns/AppointmentList';
 import UserAppointments from './components/turns/UserAppointment';
+import TurnNew from './components/turns/TurnNew';
+
+
 //import NewNavBar from './components/navBar/NewNavBar';
 
 
@@ -37,8 +40,14 @@ function App() {
         title: "Signup", path:"/signup"
 
     }
+
+    
     
 ]
+
+
+
+
 
   return (
     <div className="App">
@@ -58,6 +67,7 @@ function App() {
                 <Route path='/especialidades' element = {<Specialities/>}/>
                 <Route path='/turns/:doctorId' element = {<AppointmentList/>}/>
                 <Route path='/turns/user/:userDni' element = {<UserAppointments/>}/>
+                <Route path='/turns/new' element = {<TurnNew/>}/>
                 </Route>
             </Routes>
           </BrowserRouter>

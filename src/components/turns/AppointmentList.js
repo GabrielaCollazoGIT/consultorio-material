@@ -5,6 +5,7 @@ import { useParams, useNavigate,} from "react-router-dom";
 import {Box,Button,Table,TableBody,TableCell,TableContainer,TableHead,
     TableRow,Typography,Paper,} from '@mui/material';
 import {fetchAppoinmentsByDoctor} from '../../redux/slices/turns/appoinmentsSlice';
+import { fetchSpecialites } from '../../redux/slices/specialities/listSpecialitiesSlice';
 import { reserveAppointment, addAppointment } from '../../redux/slices/turns/appoinmentsSlice';
 import {getUserData} from '../../redux/slices/auth/authSlice';
 
@@ -13,6 +14,10 @@ const AppointmentsList = () => {
     const dispatch = useDispatch();
     const appointments = useSelector(state => state.appointments.appointments);
     const dni = useSelector(state => state.auth.dni);
+    const specialities = useSelector(state => state.specialities.specialities );
+
+    console.log('specialities:', specialities);
+
 
     useEffect(() => {
         dispatch(getUserData());
@@ -23,6 +28,7 @@ const AppointmentsList = () => {
     const { doctorId } = useParams(); 
     useEffect(() => {
         dispatch(fetchAppoinmentsByDoctor(doctorId));
+        dispatch(fetchSpecialites());
         
 
     }, [dispatch,doctorId]);
@@ -37,6 +43,7 @@ const AppointmentsList = () => {
     const handleReserve = (id, dni) => {
     
         console.log(id);
+        console.log(dni);
         dispatch(reserveAppointment({ id, dni }));
         dispatch(addAppointment(id));
     
@@ -47,12 +54,12 @@ const AppointmentsList = () => {
 
     return (
         <Box sx={{ width: '100%', margin: 'auto' }}>
-        <Typography variant="h4" align="center" mt={2} mb={4}>
-            Lista de Turnos Médicos Disponibles
-        </Typography>
-
-        <TableContainer component={Paper}>
-                <Table >
+            <Typography variant="h4" align="center" mt={2} mb={4}>
+                Lista de Turnos Médicos Disponibles
+            </Typography>
+        
+            <TableContainer component={Paper}>
+                <Table>
                 <TableHead>
                     <TableRow>
                     <TableCell sx={{ textAlign: 'center' }}>Doctor</TableCell>
@@ -60,43 +67,43 @@ const AppointmentsList = () => {
                     <TableCell sx={{ textAlign: 'center' }}>Día</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>Hora</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>Estado</TableCell>
-
                     <TableCell sx={{ textAlign: 'center' }}>Acciones</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {appointments.map((appointment, index) => (
-                
-                    <TableRow key={appointment.id+''+ index}>
+                    {appointments.map((appointment, index) => {
+                    const speciality = specialities.find((s) => s._id == appointment.speciality);
                     
-                        <TableCell sx={{ textAlign: 'center' }}>{appointment.doctor.name +' '+ appointment.doctor.lastname }</TableCell>
-                        <TableCell  sx={{ textAlign: 'center' }}>{appointment.speciality}</TableCell>
+                    return (
+                        <TableRow key={appointment.id + '' + index}>
+                        <TableCell sx={{ textAlign: 'center' }}>
+                            {appointment.doctor.name + ' ' + appointment.doctor.lastname}
+                        </TableCell>
+                        <TableCell sx={{ textAlign: 'center' }}>
+                            { speciality.name }
+                        </TableCell>
                         <TableCell sx={{ textAlign: 'center' }}>{formatDate(appointment.date)}</TableCell>
                         <TableCell sx={{ textAlign: 'center' }}>{appointment.hour}</TableCell>
                         <TableCell sx={{ textAlign: 'center' }}>{appointment.status}</TableCell>
-
-                        <TableCell  sx={{ textAlign: 'center' }} >
-                    
+                        <TableCell sx={{ textAlign: 'center' }}>
                             <Button
                             variant="contained"
                             color="primary"
                             disabled={appointment.reserved}
-                            onClick={()=> handleReserve(appointment._id, dni)}
+                            onClick={() => handleReserve(appointment._id,dni)}
                             sx={{ marginRight: 2, marginBottom: 1 }}
-                            
                             >
                             Reservar
                             </Button>
-                        
-                        
                         </TableCell>
-                    </TableRow>
-                    ))}
+                        </TableRow>
+                    );
+                    })}
                 </TableBody>
-            </Table>
-        </TableContainer>
-        </Box>
-    );
+                </Table>
+            </TableContainer>
+            </Box>
+        );
 };
 
 export default AppointmentsList;

@@ -36,3 +36,19 @@ export const fetchDoctors = (id) => (dispatch) => {
             console.error(error);
         });
     };
+
+    export const fetchAllDoctors = (id) => (dispatch) => {
+
+        const headers = {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        };
+        
+            axios.get("http://localhost:5000/api/doctors", { headers })
+            .then((response) => {
+                console.log(response.data);
+               dispatch(setDoctorList(response.data)); // el dispacher es el que ejecuta la action
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        };
