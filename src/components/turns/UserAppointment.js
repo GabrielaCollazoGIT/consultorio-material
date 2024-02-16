@@ -1,31 +1,32 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate,} from "react-router-dom";
+
 import {Box,Button,Table,TableBody,TableCell,TableContainer,TableHead,
     TableRow,Typography,Paper,} from '@mui/material';
-import {fetchAppoinmentsByDoctor} from '../../redux/slices/turns/appoinmentsSlice';
-import { reserveAppointment, addAppointment } from '../../redux/slices/turns/appoinmentsSlice';
+import {fetchAppoinmentsByUser} from '../../redux/slices/turns/appoinmentsSlice';
+import { cancelAppointment, deleteAppointment } from '../../redux/slices/turns/appoinmentsSlice';
 import {getUserData} from '../../redux/slices/auth/authSlice';
 
-const AppointmentsList = () => {
-    const navigate = useNavigate();
+const UserAppointments = () => {
+
     const dispatch = useDispatch();
     const appointments = useSelector(state => state.appointments.appointments);
     const dni = useSelector(state => state.auth.dni);
-
+    console.log(appointments);
     useEffect(() => {
         dispatch(getUserData());
         
     }, [dispatch]);
 
 
-    const { doctorId } = useParams(); 
-    useEffect(() => {
-        dispatch(fetchAppoinmentsByDoctor(doctorId));
-        
 
-    }, [dispatch,doctorId]);
+
+    useEffect(() => {
+        dispatch(fetchAppoinmentsByUser(dni));
+
+
+    }, [dispatch,dni]);
 
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
@@ -34,21 +35,18 @@ const AppointmentsList = () => {
     };
 
 
-    const handleReserve = (id, dni) => {
-    
-        console.log(id);
-        dispatch(reserveAppointment({ id, dni }));
-        dispatch(addAppointment(id));
-    
-        navigate(`/turns/user/${dni}`);
-    
-    };
 
+    const handleCancel = (dni, date, hour,id) => {
+        console.log(date);
+        dispatch(cancelAppointment({ dni,date,hour }));
+        dispatch(deleteAppointment(id));
+        dispatch(fetchAppoinmentsByUser(dni));
+    };
 
     return (
         <Box sx={{ width: '100%', margin: 'auto' }}>
         <Typography variant="h4" align="center" mt={2} mb={4}>
-            Lista de Turnos Médicos Disponibles
+            Lista de Turnos del Usuario
         </Typography>
 
         <TableContainer component={Paper}>
@@ -77,18 +75,14 @@ const AppointmentsList = () => {
 
                         <TableCell  sx={{ textAlign: 'center' }} >
                     
-                            <Button
-                            variant="contained"
-                            color="primary"
+                        <Button
+                            variant="outlined"
+                            color="secondary"
                             disabled={appointment.reserved}
-                            onClick={()=> handleReserve(appointment._id, dni)}
-                            sx={{ marginRight: 2, marginBottom: 1 }}
-                            
+                            onClick={() => handleCancel(dni, appointment.date, appointment.hour, appointment.id)}
                             >
-                            Reservar
-                            </Button>
-                        
-                        
+                            Cancelar
+                        </Button>
                         </TableCell>
                     </TableRow>
                     ))}
@@ -99,4 +93,4 @@ const AppointmentsList = () => {
     );
 };
 
-export default AppointmentsList;
+export default UserAppointments;

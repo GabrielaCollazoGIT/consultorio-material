@@ -26,7 +26,7 @@ const NavListDrawer = ({navLinks}) => {
         </ListItem>
             ))
         }
-        {/* Refactorizar para hacer un droopdown...... */}
+
     
         <ListItem button onClick={handleClick}>
         <ListItemText primary="Profesionales" />

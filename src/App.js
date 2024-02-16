@@ -10,6 +10,7 @@ import Specialities from './components/especialidades/Specialities';
 import NewDoctor from './components/doctors/NewDoctor';
 import UpdateDoctor from './components/doctors/UpdateDoctor';
 import AppointmentList from './components/turns/AppointmentList';
+import UserAppointments from './components/turns/UserAppointment';
 //import NewNavBar from './components/navBar/NewNavBar';
 
 
@@ -25,7 +26,7 @@ function App() {
 
     },
     {
-      title: "Turnos", path:"/turnos"
+      title: "Turnos", path:"/turns/user/:userDni"
 
     },
     {
@@ -55,8 +56,8 @@ function App() {
                 <Route path='/doctors/new' element = {<NewDoctor/>}/>
                 <Route path='/doctors/update' element = {<UpdateDoctor/>}/>
                 <Route path='/especialidades' element = {<Specialities/>}/>
-                <Route path='/turnos' element = {<AppointmentList/>}/>
-
+                <Route path='/turns/:doctorId' element = {<AppointmentList/>}/>
+                <Route path='/turns/user/:userDni' element = {<UserAppointments/>}/>
                 </Route>
             </Routes>
           </BrowserRouter>

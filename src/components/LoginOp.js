@@ -2,8 +2,8 @@
 import React, {useState} from "react";
 import { Box, Button,Container,Grid,Paper,TextField,Typography} from '@mui/material';
 import { Link, useNavigate} from "react-router-dom";
-import { useDispatch } from "react-redux";
-import {  setTokenAndRole  } from "../redux/slices/auth/authSlice";
+//import { useDispatch } from "react-redux";
+//import {  setTokenAndRole  } from "../redux/slices/auth/authSlice";
 import axios from "axios";
 
 
@@ -11,18 +11,18 @@ const LoginOp = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     
 
 const onfinishHandler = async (e) => {
     e.preventDefault();
     try {
         const response = await axios.post("http://localhost:5000/api/users/login",{email, password});
-        const {token, rol } = response.data;
+        const {token } = response.data;
         console.log(response.data);
 
         if(response.data){// statuscode
-            dispatch(setTokenAndRole({token, rol}));
+            //dispatch(setTokenAndRole({token, rol}));
 
             localStorage.setItem("token", token)
         alert('Ingresando.....');
