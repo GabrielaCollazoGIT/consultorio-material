@@ -4,19 +4,19 @@ import axios from 'axios';
 export const appointmentsSlice = createSlice({
     name: 'appointments',
     initialState: {
-        appointments: [], 
+        appointments: [],
+        createAppointments:[]
     },
     reducers: {
         setAppointments: (state, action) => {
         state.appointments = action.payload;
         },
         addAppointment: (state, action) => {
-            state.appointments.push(action.payload);
+            state.createAppointments.push(action.payload);
         },
         deleteAppointment: (state, action) => {
-            const idAppointment = action.payload;
-        state.appointments = state.appointments.filter(appointment => appointment.id !== idAppointment);
-        },
+        state.appointments.pop(action.payload);
+    },
 
     },
     extraReducers: (builder) => {
@@ -39,28 +39,44 @@ export const { setAppointments, addAppointment, deleteAppointment} = appointment
 
 export default appointmentsSlice.reducer;
 
-export const fetchAppoinmentsByDoctor = (id) => (dispatch) => {
-console.log(id);
-    const headers = {
-        Authorization: "Bearer " + localStorage.getItem('token'),
-    };
+export const fetchAppoinmentsByDoctor = (id) => async (dispatch) => {
+    try {
+        console.log(id);
+        const headers = {
+            Authorization: "Bearer " + localStorage.getItem('token'),
+        };
     
-        axios.get("http://localhost:5000/api/doctors/available/"+id, { headers })
-        .then((response) => {
+        const response = await axios.get(`http://localhost:5000/api/doctors/available/${id}`, { headers });
+    
+        if (response.status === 200) {
+            console.log(response.data);
+            dispatch(setAppointments(response.data));
+        } else {
+            alert(response.data.error);
+        }
+        } catch (error) {
+        console.log(error.response.data.error);
+        }
+    };
+    export const fetchAllppoinments = () => async (dispatch) => {
+        try {
+        
+            const headers = {
+                Authorization: "Bearer " + localStorage.getItem('token'),
+            };
+        
+            const response = await axios.get(`http://localhost:5000/api/turns`, { headers });
+        
             if (response.status === 200) {
                 console.log(response.data);
-                dispatch(setAppointments(response.data)); // el dispacher es el que ejecuta la action
-            return
+                dispatch(setAppointments(response.data));
             } else {
                 alert(response.data.error);
             }
-            
-        })
-        .catch((error) => {
+            } catch (error) {
             console.log(error.response.data.error);
-        });
-    };
-
+            }
+        };
 
     export const fetchAppoinmentsByUser = (dni) => (dispatch) => {
         const headers = {
@@ -80,8 +96,34 @@ console.log(id);
             })
             .catch((error) => {
                 console.log(error.response.data.error);
+                console.error('Error en la petición:', error.message);
+            
             });
-        };
+        }; 
+
+/*         export const fetchAppoinmentsByUser = createAsyncThunk('appointments/user', async ({ dni }, { dispatch }) => {
+            try {
+                
+                const token = localStorage.getItem('token');
+                const response = await axios.get(
+                    `http://localhost:5000/api/turns/patient/turns/${dni}`,
+                    
+                    {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    }
+                );
+            
+                dispatch(setAppointments(response.data));
+                return;
+                } catch (error) {
+                console.error(error.response.data.error);
+                throw error;
+                }
+            });
+ */
+
 
 
     export const reserveAppointment = createAsyncThunk('appointments/reserve', async ({ id, dni }) => {

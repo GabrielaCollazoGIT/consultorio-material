@@ -6,7 +6,7 @@ import {Box,Button,Table,TableBody,TableCell,TableContainer,TableHead,
     TableRow,Typography,Paper,} from '@mui/material';
 import {fetchAppoinmentsByDoctor} from '../../redux/slices/turns/appoinmentsSlice';
 import { fetchSpecialites } from '../../redux/slices/specialities/listSpecialitiesSlice';
-import { reserveAppointment, addAppointment } from '../../redux/slices/turns/appoinmentsSlice';
+import { reserveAppointment,deleteAppointment } from '../../redux/slices/turns/appoinmentsSlice';
 import {getUserData} from '../../redux/slices/auth/authSlice';
 
 const AppointmentsList = () => {
@@ -26,9 +26,11 @@ const AppointmentsList = () => {
 
 
     const { doctorId } = useParams(); 
+
     useEffect(() => {
         dispatch(fetchAppoinmentsByDoctor(doctorId));
         dispatch(fetchSpecialites());
+        
         
 
     }, [dispatch,doctorId]);
@@ -40,14 +42,16 @@ const AppointmentsList = () => {
     };
 
 
-    const handleReserve = (id, dni) => {
+
+    const handleReserve = async (id, dni) => {
     
         console.log(id);
         console.log(dni);
-        dispatch(reserveAppointment({ id, dni }));
-        dispatch(addAppointment(id));
-    
-        navigate(`/turns/user/${dni}`);
+        
+        await dispatch(reserveAppointment({ id, dni }));
+        await dispatch(deleteAppointment(id));
+   
+        await navigate(`/turns/user/${dni}`);
     
     };
 
@@ -72,8 +76,9 @@ const AppointmentsList = () => {
                 </TableHead>
                 <TableBody>
                     {appointments.map((appointment, index) => {
-                    const speciality = specialities.find((s) => s._id == appointment.speciality);
+                    const speciality = specialities.find((s) => s._id === appointment.speciality);
                     
+                    console.log(appointment.doctor.name);
                     return (
                         <TableRow key={appointment.id + '' + index}>
                         <TableCell sx={{ textAlign: 'center' }}>
