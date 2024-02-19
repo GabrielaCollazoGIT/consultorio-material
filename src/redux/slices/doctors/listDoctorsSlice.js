@@ -37,7 +37,7 @@ export const fetchDoctors = (id) => (dispatch) => {
         });
     };
 
-    export const fetchAllDoctors = (id) => (dispatch) => {
+    export const fetchAllDoctors = () => (dispatch) => {
 
         const headers = {
             Authorization: "Bearer " + localStorage.getItem('token'),

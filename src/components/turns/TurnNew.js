@@ -1,170 +1,185 @@
 import React, {useState, useEffect} from "react";
-import { Box, Button,Container,Grid,Paper,TextField,Typography,
-        Select, InputLabel,MenuItem,FormControl } from '@mui/material';
+import { Box, Button,Container,Paper,Typography,
+        TableBody,TableCell,TableContainer,TableHead,
+        TableRow,Table} from '@mui/material';
 import { useDispatch, useSelector } from"react-redux";
 import {fetchSpecialites} from '../../redux/slices/specialities/listSpecialitiesSlice';
-
+import { fetchAllppoinments,deleteAppointment } from "../../redux/slices/turns/appoinmentsSlice";
 import {useNavigate} from "react-router-dom";
 import { fetchDoctors } from "../../redux/slices/doctors/listDoctorsSlice";
 
 
-const NewDoctor = () => {
+const TurnNew = () => {
     const navigate = useNavigate();
 
-    const [doctor, setDoctor] = useState('');
-    const [speciality, setSpeciality] = useState('');
-    const [date, setDate] = useState('');
+    const [speciality] = useState('');
     
-    const [hour, setHour] = useState('');
 
-// funciona ver de refactorizar y ordenar el codigo para usar la autenticacion y autorizacion gral, usar las request de manera global tb
 
 
     const {specialities} = useSelector(state => state.specialities);
     const {doctors} = useSelector(state => state.doctors);
+    const {appointments} = useSelector(state => state.appointments);
+
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+        const formattedDate = new Date(dateString).toLocaleDateString(undefined, options);
+        return formattedDate;
+    };
+
+    console.log(appointments);
+
     const dispatch = useDispatch();
     
     useEffect(() => {
     
     dispatch(fetchSpecialites());// necesitamos el thunk para caragarlo la momenot de entrar a la pag especialidaddes
     dispatch(fetchDoctors(speciality));
-    },[dispatch]);
+    dispatch(fetchAllppoinments());
+    },[dispatch,speciality]);
     console.log(specialities);
     console.log(doctors);
     
+    const handleCreate = async () => {
+        
+            if (localStorage.getItem("token")) {
+                navigate(`/turns/turn-form/`);
+            } else {
+                navigate('/login');
+            }
+        };
+    
+    
 
 
-console.log(localStorage.getItem('token'));
+    const handleUpdate = (id) => {
+        if (localStorage.getItem("token")) {
+            navigate(`/turns/update/${id}`);
+        } else {
+            navigate('/login');
+        }
+    };
 
-    const onfinishHandler = async (e) => {
+
+
+    const handleDelete = async (e, id) => {
+
         e.preventDefault();
     
         const token = localStorage.getItem('token');
-    
+
         const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-            date,
-            hour,
-            speciality,
-            doctor,
-        }),
+            method: 'DELETE' ,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+    
         };
     
         try {
-        const response = await fetch("http://localhost:5000/api/turns/new", requestOptions);
+            const url = 'http://localhost:5000/api/turns/'+id;
+            const response = await fetch(url, requestOptions);
     
-        const responseData = await response.json();
-        if (!response.ok) {
-            alert(responseData.error);
-            throw new Error();
-        } else {
-            alert('Turno registrado correctamente');
-            navigate('/');
-        }
+            const responseData = await response.json();
+            if (!response.ok) {
+                alert(responseData.error);
+                throw new Error();
+            } else {
+            dispatch(deleteAppointment(id))
+                alert('Turno borrado correctamente');
+                navigate("/turns/new");
+                console.log(responseData);
+            }
         } catch (error) {
-        console.log(error);
+            console.log(error);
         }
     };
 
 
 
 return (
-    <Container maxWidth="sm">
-        <Grid
-        container
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        sx={{ minHeight: "100vh" }}
-        >
-            <Grid item>
-            <Paper sx={{ padding: "1.2em", borderRadius: "0.5em" }}>
-                <Typography sx={{ mt: 1, mb: 1 }} variant="h4">
-                Registrar Nuevo Turno
-                </Typography>
-                <Box component="form" onSubmit={onfinishHandler}>
 
-                <FormControl fullWidth sx={{ mt: 1.5, mb: 1.5 }}>
-                <InputLabel id="speciality">Speciality</InputLabel>
-                <Select
-                    labelId="speciality-label"
-                    id="speciality"
-                    value={speciality}
-                    label="Speciality"
-                    onChange={(e) => {
-                        setSpeciality(e.target.value);
-                        dispatch(fetchDoctors(e.target.value));
-                    }}
-                >
-                    {specialities?.map((especialidad) => (
-                    <MenuItem key={`${especialidad.id}-${especialidad.name}`} value={especialidad._id}>
-                    {especialidad.name}
-                    </MenuItem>
-                    ))}
-                </Select>
-                </FormControl>
+    <>
 
-                <FormControl fullWidth sx={{ mt: 1.5, mb: 1.5 }}>
-                <InputLabel id="doctor">Doctor</InputLabel>
-                <Select
-                    labelId="doctor-label"
-                    id="doctor"
-                    value={doctor}
-                    label="Doctor"
-                    onChange={(e) => setDoctor(e.target.value)}
-                >
-                    {doctors?.map((doctor) => (
-                    <MenuItem key={`${doctor.id}-${doctor.name}`} value={doctor._id}>
-                    {doctor.name}  {doctor.lastname}
-                    </MenuItem>
-                    ))}
-                </Select>
-                </FormControl>
+        <Container  >
 
-                <TextField
-                name="datePick"
-                margin="normal"
-                value={date}
-                type="date"
-                fullWidth
-                label="Fecha"
-                
-                sx={{ mt: 2, mb: 1.5 }}
-                required
-                onChange={(e)=> {setDate(e.target.value)}}
-                />
-
-                <TextField
-                id="hour"
-                label="Time"
-                type="time"
-                value={hour}
-                onChange={(e) => setHour(e.target.value)}
-                
-                />
-
-                
-                <Button
-                fullWidth
-                type="submit"
+    <Box sx={{ width: '100%', margin: 'auto' }}>
+    <Typography variant="h4" align="center" mt={2} mb={4}>
+        Lista de Turnos
+    </Typography>
+    <Box>
+    <Button
                 variant="contained"
-                sx={{ mt: 1.5, mb: 3 }}
+                color="primary"
+            
+                onClick={(e) => handleCreate()}
+                sx={{ marginRight: 2, marginBottom: 1,}}
                 >
-                Registrar Turno
+                Agregar
                 </Button>
-    
-            </Box>
-        </Paper>
-    
-        </Grid>
-        </Grid>
-    </Container>
+    </Box>
+<TableContainer component={Paper}>
+    <Table>
+    <TableHead>
+        <TableRow>
+        <TableCell sx={{ textAlign: 'center' }}>Doctor</TableCell>
+        <TableCell sx={{ textAlign: 'center' }}>Especialidad</TableCell>
+        <TableCell sx={{ textAlign: 'center' }}>Día</TableCell>
+        <TableCell sx={{ textAlign: 'center' }}>Hora</TableCell>
+        <TableCell sx={{ textAlign: 'center' }}>Estado</TableCell>
+        <TableCell sx={{ textAlign: 'center' }}>Acciones</TableCell>
+        </TableRow>
+    </TableHead>
+    <TableBody>
+        {appointments.map((appointment, index) => {
+        const speciality = specialities.find((s) => s._id === appointment.speciality);
+        
+        console.log(appointment.doctor.name);
+        return (
+            <TableRow key={appointment.id + '' + index}>
+            <TableCell sx={{ textAlign: 'center' }}>
+                {appointment.doctor.name + ' ' + appointment.doctor.lastname}
+            </TableCell>
+            <TableCell sx={{ textAlign: 'center' }}>
+                { speciality.name }
+            </TableCell>
+            <TableCell sx={{ textAlign: 'center' }}>{formatDate(appointment.date)}</TableCell>
+            <TableCell sx={{ textAlign: 'center' }}>{appointment.hour}</TableCell>
+            <TableCell sx={{ textAlign: 'center' }}>{appointment.status}</TableCell>
+            <TableCell sx={{ textAlign: 'center' }}>
+                <Button
+                variant="contained"
+                color="primary"
+                disabled={appointment.reserved}
+                onClick={() => handleUpdate(appointment._id)}
+                sx={{ marginRight: 2, marginBottom: 1 }}
+                >
+                Actualizar
+                </Button>
+
+        
+
+                <Button
+                variant="contained"
+                color="primary"
+                disabled={appointment.reserved}
+                onClick={(e) => handleDelete(e, appointment._id)}
+                sx={{ marginRight: 2, marginBottom: 1 }}
+                >
+                Borrar
+                </Button>
+            </TableCell>
+            </TableRow>
+        );
+        })}
+    </TableBody>
+    </Table>
+</TableContainer>
+</Box>
+</Container>
+</>
 );
 
 };
-export default NewDoctor;
+export default TurnNew;

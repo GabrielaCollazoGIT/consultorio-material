@@ -12,11 +12,18 @@ export const appointmentsSlice = createSlice({
         state.appointments = action.payload;
         },
         addAppointment: (state, action) => {
-            state.createAppointments.push(action.payload);
+            state.appointments.push(action.payload);
         },
         deleteAppointment: (state, action) => {
         state.appointments.pop(action.payload);
     },
+    modifyAppointment: (state, action) => {
+        const index = state.appointments.findIndex(x =>x.id ===action.payload.id)
+        state.appointments.pop(action.payload);
+        state.appointments[index] = action.payload;
+        
+    },
+
 
     },
     extraReducers: (builder) => {
@@ -35,7 +42,7 @@ export const appointmentsSlice = createSlice({
     });
 
 
-export const { setAppointments, addAppointment, deleteAppointment} = appointmentsSlice.actions;
+export const { setAppointments, addAppointment, deleteAppointment,modifyAppointment} = appointmentsSlice.actions;
 
 export default appointmentsSlice.reducer;
 

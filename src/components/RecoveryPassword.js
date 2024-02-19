@@ -6,38 +6,35 @@ import { Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 
 
-const LoginOp = () => {
+const RecoveryPassword = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+
 
 
 
 const onfinishHandler = async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.post("http://localhost:5000/api/users/login",{email, password});
-        const {token } = response.data;
+        const response = await axios.post("http://localhost:5000/api/users/forgot-password",{email});
+    
         console.log(response.data);
 
-        if(response.data){// statuscode
-            //dispatch(setTokenAndRole({token, rol}));
-
-            localStorage.setItem("token", token)
-        alert('Ingresando.....');
-
-        navigate('/');
+        if(response.data){
+        
+            console.log(response.data);
+        navigate('/new-password');
         }
         
     } catch(error) {
-
+        console.log(error.response.data);
         alert(error.response.data.error);
 
     }
 }
 
 
-console.log(email, password);
+console.log(email);
 
 
 /* const onfinishHandler = async (e) =>{
@@ -84,7 +81,7 @@ return (
             <Grid item >
             <Paper sx={{ padding: "1.2em",border:"solid", borderRadius: "0.5em" ,background:"transparent"}}>
                 <Typography sx={{ mt: 1, mb: 1 }} variant="h4">
-                Iniciar sesion
+                Recuperar contraseña
                 </Typography>
                 <Box component="form" >
                 <TextField
@@ -98,16 +95,7 @@ return (
                 required
                 onChange={(e)=> {setEmail(e.target.value)}}
                 />
-            <TextField
-                name="password"
-                margin="normal"
-                type="password"
-                fullWidth
             
-                label="Password"
-                sx={{ mt: 1.5, mb: 1.5 }}
-                required
-                onChange={(e)=> {setPassword(e.target.value)}} />
 
                 <Button
                 fullWidth
@@ -116,15 +104,12 @@ return (
                 sx={{ mt: 1.5, mb: 3 }}
                 onClick={onfinishHandler}
                 >
-                Iniciar sesion
+                Enviar
                 </Button>
                 <Typography>
-                Forgot  <Link to='/password-recovery' className="ms-2">Password</Link>
+                Return Login  <Link to='/login' className="ms-2">Iniciar Sesión</Link>
                 </Typography>
 
-                <Typography>
-                Do you have an acount? <Link to='/signup' className="ms-2">Registrarse</Link>
-                </Typography>
             </Box>
         </Paper>
         
@@ -134,4 +119,4 @@ return (
     </Container>
     );
 };
-export default LoginOp;
+export default RecoveryPassword;

@@ -98,7 +98,7 @@ console.log(localStorage.getItem('token'));
             throw new Error();
         } else {
             alert('Médico registrado correctamente');
-            navigate('/');
+            navigate('/doctors/admin');
         }
         } catch (error) {
         console.log(error);

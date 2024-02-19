@@ -1,5 +1,5 @@
 import React,{useEffect} from "react";
-import { useParams,Link} from "react-router-dom";
+import { useParams,useNavigate} from "react-router-dom";
 import {fetchDoctors} from '../../redux/slices/doctors/listDoctorsSlice';
 import { useDispatch, useSelector } from "react-redux";
 import {Box, Button, Typography,Container,List, ListItem, ListItemText, Grid, Card, CardActionArea, CardMedia, CardContent, CardActions } from "@mui/material";
@@ -10,7 +10,7 @@ const DoctorList = () => {
     const {doctors} = useSelector(state => state.doctors);
     const dispatch = useDispatch();
     const { specialityId } = useParams(); 
-
+    const navigate = useNavigate();
     useEffect(() => {
 
     dispatch(fetchDoctors(specialityId));
@@ -18,7 +18,16 @@ const DoctorList = () => {
     },[dispatch, specialityId]);
 console.log(doctors);
 
-
+const handleRedirect = (doctorId) => {
+    
+        
+        if (localStorage.getItem("token")) {
+            navigate(`/turns/${doctorId}`);
+        } else {
+            navigate('/login');
+        }
+    };
+    
 
 return(
     <Container  sx={{
@@ -57,6 +66,7 @@ return(
                         {doctor.name + ' ' + doctor.lastname}
                         </Typography>
                         <List>
+                        
                         {doctor.speciality.map((speciality, index) => (
                         <ListItem key={index} sx={{ display: 'flex',textAlign: 'center', alignItems: 'center', justifyContent:'center' }}>
                         <ListItemText primary={speciality.name} />
@@ -67,13 +77,15 @@ return(
                 </CardActionArea>
                 <Box display="flex" justifyContent="center" alignItems="center" >
 
-                <CardActions >
-                        <Link to={`/turns/${doctor._id}`}> 
-                            <Button   variant="contained" size="medium">
-                                Turnos Disponibles
-                            </Button>
-                        </Link> 
-                        </CardActions>
+                <CardActions>
+                <Button
+                    variant="contained"
+                    size="medium"
+                    onClick={() => handleRedirect(doctor._id)}
+                >
+                    Turnos Disponibles
+                </Button>
+                </CardActions>
                 </Box>
             </Card>
         </Grid> 

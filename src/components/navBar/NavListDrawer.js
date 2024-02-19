@@ -1,10 +1,9 @@
 import React from 'react';
-import { Box, ListItem,  ListItemText, List,Collapse, Divider,Link, ListItemButton} from '@mui/material'; 
-import { Link as RouterLink } from 'react-router-dom';
+import { Box, ListItem,  ListItemText, List,Collapse,Link, ListItemButton} from '@mui/material'; 
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-const NavListDrawer = ({navLinks}) => {
+const NavListDrawer = ({menuAcces}) => {
 
 
     const [open, setOpen] = React.useState(false);
@@ -18,7 +17,7 @@ const NavListDrawer = ({navLinks}) => {
     <nav>
     <List>
         {
-            navLinks.map(link => (  
+            menuAcces.map(link => (  
         <ListItem key={link.title} disablePadding>
             <ListItemButton component="a" href={link.path}>
             <ListItemText>{link.title}</ListItemText>
