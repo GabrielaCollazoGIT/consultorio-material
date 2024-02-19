@@ -16,6 +16,8 @@ import RecoveryPassword from './components/RecoveryPassword';
 import DoctorAdmins from './components/doctors/DoctorAdmins';
 import UpdateTurn from './components/turns/UpdateTurn';
 import AppoinmentForm from './components/turns/Appoinments.form';
+import ChangePassword from './components/ChangePassword';
+import CancelledAppoimnets from './components/turns/CancelledAppoiments';
 
 
 
@@ -33,19 +35,21 @@ function App() {
             <Route path='/' element = {<Home/>}/>
               <Route path='/login' element = {<LoginOp/>}/>
               <Route path='/password-recovery' element = {<RecoveryPassword/>}/>
+              <Route path='/password-change' element = {<ChangePassword/>}/>
               <Route path='/signup' element = {<Register/>}/>
               
                 <Route  element = { <ProtectedRoute />}>
                 <Route path='/doctor/:specialityId' element = {<DoctorList/>}/>
                 <Route path='/doctors/new' element = {<NewDoctor/>}/>
                 <Route path='/doctors/admin' element = {<DoctorAdmins/>}/>
-                <Route path='/doctors/update/:doctorId' element = {<UpdateDoctor/>}/>
+                <Route path='/doctors/update/:doc torId' element = {<UpdateDoctor/>}/>
                 <Route path='/especialidades' element = {<Specialities/>}/>
                 <Route path='/turns/:doctorId' element = {<AppointmentList/>}/>
                 <Route path='/turns/user/:userDni' element = {<UserAppointments/>}/>
                 <Route path='/turns/new' element = {<TurnNew/>}/>
                 <Route path='/turns/turn-form/' element = {<AppoinmentForm/>}/>
                 <Route path='turns/update/:id' element  = {<UpdateTurn/> }/>
+                <Route path='turns/cancelled' element = {<CancelledAppoimnets/> }/>
                 
                 </Route>
             </Routes>

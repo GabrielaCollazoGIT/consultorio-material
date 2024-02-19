@@ -2,8 +2,9 @@
 import React, {useState} from "react";
 import { Box, Button,Container,Grid,Paper,TextField,Typography} from '@mui/material';
 import { Link, useNavigate} from "react-router-dom";
-
+import { setUserInfo } from "../redux/slices/auth/authSlice";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 
 
 const RecoveryPassword = () => {
@@ -16,57 +17,42 @@ const RecoveryPassword = () => {
 const onfinishHandler = async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.post("http://localhost:5000/api/users/forgot-password",{email});
-    
-        console.log(response.data);
+        const response = await axios.post("http://localhost:5000/api/users/forgot-password", { email });
 
-        if(response.data){
-        
+        if (response.data) {
+            const url = response.data.link;
             console.log(response.data);
-        navigate('/new-password');
-        }
+            console.log(url);
+            
+            const lastSlashIndex = url.lastIndexOf("/");
+            
         
-    } catch(error) {
+            const token = url.substring(lastSlashIndex + 1);
+            
+            console.log(token);
+    
+            localStorage.setItem("token",token);
+            dispatch(setUserInfo(token));
+            console.log(token);
+            } else {
+            console.error('Link is undefined or does not match the pattern');
+            }
+
+            navigate('/password-change');
+            alert("Por favor verifique su correo y siga el enlace que le acabamos de enviar..");
+        
+
+        } catch (error) {
         console.log(error.response.data);
         alert(error.response.data.error);
-
-    }
-}
-
-
-console.log(email);
-
-
-/* const onfinishHandler = async (e) =>{
-    e.preventDefault();
-    
-    try {
-        const response = await fetch("http://localhost:5000/api/users/login",{  // este fetch apunta al backend para login, mediante la ruta url
-        method:'POST',
-        headers: {
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({  // me convierte estos datos a Json
-        
-            email:email,
-            password:password        // mando estos atributos porq son los que espera recibir el Backend...
-        }), // si esta tdo bien lo valida el botton submit
-        })
-        const responseData = await response.json();
-        if(response.ok){// statuscode
-            dispatch(addUser(responseData));
-            localStorage.setItem("token", responseData.token)
-        alert('Ingresando.....') // eo c0digo que sigue no se ejecuta  y se dispara el catch
-        navigate('/');
         }
-        else{
-            alert(responseData.error);
-        }
-    
-        } catch (error) {
-        console.log(error);
-        }
-} */
+    };
+
+    const dispatch = useDispatch();
+
+
+
+
 
 return (
     <Container  className="body-background">

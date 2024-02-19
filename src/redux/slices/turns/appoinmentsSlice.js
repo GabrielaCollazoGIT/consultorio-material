@@ -108,6 +108,34 @@ export const fetchAppoinmentsByDoctor = (id) => async (dispatch) => {
             });
         }; 
 
+
+        export const fetchAppoinmentsCancelled = (dni) => (dispatch) => {
+            const headers = {
+                Authorization: "Bearer " + localStorage.getItem('token'),
+                };
+            console.log(dni);
+            
+                axios.get(`http://localhost:5000/api/turns/patient/cancelations/${dni}`, { headers })
+                .then((response) => {
+                    if (response.data) {
+                    console.log("en fechat cancelations:" +response.data);
+                    dispatch(setAppointments(response.data));
+                    return;
+                    } else {
+                    alert(response.data.error);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.response.data.error);
+                    console.error('Error en la petición:', error.message);
+                
+                });
+            }; 
+
+
+
+
+
 /*         export const fetchAppoinmentsByUser = createAsyncThunk('appointments/user', async ({ dni }, { dispatch }) => {
             try {
                 
